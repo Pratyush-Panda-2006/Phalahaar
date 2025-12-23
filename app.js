@@ -79,7 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
     badge.setAttribute('data-count', count);
   }
 
-  // ===== WISHLIST BADGE =====
   updateWishlistBadge();
   function updateWishlistBadge() {
     const badge = document.querySelector('.wishlist-count');
