@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ===== PROMO BAR =====
   const promoClose = document.querySelector('.promo-close');
   if (promoClose) {
     promoClose.addEventListener('click', () => {
@@ -19,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sessionStorage.getItem('phalahaar-promo-closed')) promoClose.parentElement.style.display = 'none';
   }
 
-  // ===== HAMBURGER MENU + SIDEBAR OVERLAY =====
   const hamburger = document.querySelector('.hamburger');
   const navbar = document.getElementById('navbar');
   let sidebarOverlay = document.querySelector('.sidebar-overlay');
