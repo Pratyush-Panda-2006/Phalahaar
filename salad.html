@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Healthy fruit salad bowls - Tropical, Berry, Citrus & more at Phalahaar">
+    <title>Fruit Salads - Phalahaar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="scroll-progress"></div>
+    <div class="promo-bar">🎉 Free delivery on orders above ₹500! Use code <strong>FRESH50</strong> for 10% off
+        &nbsp;<button class="promo-close" aria-label="Close">&times;</button></div>
+
+    <section id="header">
+        <div id="logo"><img src="image/LOGO2.png" alt="Phalahaar Logo">
+            <h1>Phalahaar</h1>
+        </div>
+        <div class="header-controls">
+            <button class="theme-toggle" aria-label="Toggle dark mode"><i class="fa-solid fa-moon"></i></button>
+            <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+        </div>
+        <ul id="navbar">
+            <li><a href="./index.html">Home</a></li>
+            <li><a href="./about.html">About</a></li>
+            <li><a href="./outlet.html">Outlet</a></li>
+            <li><a class="active" href="./product.html">Product</a></li>
+            <li><a href="./contact.html">Contact</a></li>
+            <li><a href="./faq.html">FAQ</a></li>
+            <li><a href="./wishlist.html" class="cart-link"><i class="fa-solid fa-heart"></i><span
+                        class="wishlist-count"></span></a></li>
+            <li><a href="./cart.html" class="cart-link"><i class="fa-solid fa-cart-shopping"></i><span
+                        class="cart-badge"></span></a></li>
+        </ul>
+    </section>
+
+    <div class="breadcrumbs"><a href="index.html">Home</a> <span>›</span> Products <span>›</span> <strong>Fruit
+            Salads</strong></div>
+
+    <section id="header2">
+        <ul>
+            <li><a href="product.html">Fruits</a></li>
+            <li><a href="juice.html">Juices</a></li>
+            <li><a class="active" href="salad.html">Salads</a></li>
+        </ul>
+    </section>
+
+    <section id="product1" class="section-p1">
+        <h1 style="font-size:clamp(1.8rem,3vw,2.5rem);color:var(--primary);font-weight:800;margin-bottom:10px;">Healthy
+            Fruit Salads</h1>
+        <p style="color:var(--text-secondary);margin-bottom:20px">Curated bowls of freshness — nutrition meets
+            deliciousness</p>
+
+        <div class="search-filter-bar">
+            <div class="search-wrapper"><i class="fa-solid fa-search"></i><input type="text" class="search-input"
+                    placeholder="Search salads..."></div>
+            <div class="filter-pills">
+                <button class="filter-pill active" data-filter="all">All</button>
+                <button class="filter-pill" data-filter="popular">Popular</button>
+                <button class="filter-pill" data-filter="new">New</button>
+                <button class="filter-pill" data-filter="organic">Organic</button>
+                <button class="filter-pill" data-filter="bestseller">Bestseller</button>
+                <button class="filter-pill" data-filter="sale">Sale</button>
+            </div>
+            <select class="sort-select" data-page="salads">
+                <option value="default">Sort By</option>
+                <option value="price-low">Price: Low → High</option>
+                <option value="price-high">Price: High → Low</option>
+                <option value="rating">Top Rated</option>
+                <option value="name">Name A-Z</option>
+            </select>
+        </div>
+
+        <div class="pro-container" id="product-grid"></div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-wrapper">
+            <div class="footer-about">
+                <h2>Phalahaar</h2>
+                <p>Your trusted source for fresh, organic fruits delivered with care.</p>
+                <div class="footer-contact">
+                    <p><strong>Address:</strong> Balaji Residence, Sakhipada, Sambalpur</p>
+                    <p><strong>Phone:</strong> +91 91******27</p>
+                </div>
+            </div>
+            <nav class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="product.html">Products</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="footer-social">
+                <h3>Follow Us</h3>
+                <div class="social-icons"><a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a><a
+                        href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a><a href="#"
+                        aria-label="Instagram"><i class="fab fa-instagram"></i></a></div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Pratyush Panda - Phalahaar. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/919100000027" target="_blank" class="whatsapp-float" aria-label="Chat on WhatsApp"><i
+            class="fab fa-whatsapp"></i></a>
+    <button class="back-to-top" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+    <div class="cookie-consent" style="display:none">
+        <p>🍪 We use cookies to enhance your experience.</p><button class="cookie-accept">Accept</button><button
+            class="cookie-decline">Decline</button>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+    <script>renderProducts(SALADS, 'product-grid');</script>
+</body>
+
+</html>
