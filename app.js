@@ -20,13 +20,40 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sessionStorage.getItem('phalahaar-promo-closed')) promoClose.parentElement.style.display = 'none';
   }
 
-  // ===== HAMBURGER MENU =====
+  // ===== HAMBURGER MENU + SIDEBAR OVERLAY =====
   const hamburger = document.querySelector('.hamburger');
   const navbar = document.getElementById('navbar');
+  let sidebarOverlay = document.querySelector('.sidebar-overlay');
+  if (!sidebarOverlay) {
+    sidebarOverlay = document.createElement('div');
+    sidebarOverlay.className = 'sidebar-overlay';
+    document.body.appendChild(sidebarOverlay);
+  }
+
+  function openSidebar() {
+    hamburger.classList.add('active');
+    navbar.classList.add('active');
+    sidebarOverlay.classList.add('active');
+    document.body.classList.add('sidebar-open');
+  }
+
+  function closeSidebar() {
+    hamburger.classList.remove('active');
+    navbar.classList.remove('active');
+    sidebarOverlay.classList.remove('active');
+    document.body.classList.remove('sidebar-open');
+  }
+
   if (hamburger && navbar) {
-    hamburger.addEventListener('click', () => { hamburger.classList.toggle('active'); navbar.classList.toggle('active'); });
-    navbar.querySelectorAll('a').forEach(l => l.addEventListener('click', () => { hamburger.classList.remove('active'); navbar.classList.remove('active'); }));
-    document.addEventListener('click', e => { if (!navbar.contains(e.target) && !hamburger.contains(e.target)) { hamburger.classList.remove('active'); navbar.classList.remove('active'); } });
+    hamburger.addEventListener('click', () => {
+      if (navbar.classList.contains('active')) closeSidebar();
+      else openSidebar();
+    });
+    navbar.querySelectorAll('a').forEach(l => l.addEventListener('click', closeSidebar));
+    sidebarOverlay.addEventListener('click', closeSidebar);
+    document.addEventListener('click', e => {
+      if (navbar.classList.contains('active') && !navbar.contains(e.target) && !hamburger.contains(e.target)) closeSidebar();
+    });
   }
 
   // ===== DARK MODE =====

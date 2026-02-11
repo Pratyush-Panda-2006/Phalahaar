@@ -2067,28 +2067,102 @@ textarea {
   box-shadow: var(--shadow-glow)
 }
 
-/* RESPONSIVE */
-@media(max-width:768px) {
-  #header {
-    padding: 0 20px
+/* ===== SIDEBAR OVERLAY ===== */
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+  pointer-events: auto
+}
+
+/* Body scroll lock when sidebar open */
+body.sidebar-open {
+  overflow: hidden
+}
+
+/* ===== RESPONSIVE: LAPTOP / SMALL DESKTOP (≤1024px) ===== */
+@media (max-width: 1024px) {
+  #navbar li a {
+    padding: 8px 10px;
+    font-size: 0.88rem
   }
 
+  .pro-container {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr)
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr)
+  }
+
+  .review-container {
+    grid-template-columns: repeat(2, 1fr)
+  }
+
+  .collab-logo {
+    width: 170px;
+    height: 100px;
+    padding: 18px
+  }
+
+  #header2 ul {
+    gap: clamp(16px, 3vw, 40px)
+  }
+
+  #header2 ul li {
+    font-size: clamp(1rem, 2vw, 1.5rem)
+  }
+
+  .contact-section {
+    max-width: 95%;
+    margin: 30px auto
+  }
+
+  .section-p1 {
+    padding: 50px clamp(16px, 3vw, 40px)
+  }
+}
+
+/* ===== RESPONSIVE: TABLET & MOBILE (≤768px) ===== */
+@media (max-width: 768px) {
+  #header {
+    padding: 0 16px
+  }
+
+  /* --- SIDEBAR MENU --- */
   #navbar {
     position: fixed;
     top: 0;
     right: -100%;
-    width: 70%;
-    max-width: 300px;
+    width: 75%;
+    max-width: 320px;
     height: 100vh;
+    height: 100dvh;
     background: var(--bg);
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: stretch;
     gap: 0;
-    box-shadow: -5px 0 30px rgba(0, 0, 0, 0.15);
-    transition: right 0.4s ease;
+    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.2);
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1000;
-    padding: 20px
+    padding: 80px 0 30px;
+    overflow-y: auto
   }
 
   #navbar.active {
@@ -2096,39 +2170,100 @@ textarea {
   }
 
   #navbar li {
-    width: 100%
+    width: 100%;
+    border-bottom: 1px solid var(--border)
+  }
+
+  #navbar li:last-child {
+    border-bottom: none
   }
 
   #navbar li a {
-    display: block;
-    padding: 14px 20px;
-    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 24px;
+    font-size: 1.05rem;
     text-align: center;
-    border-radius: var(--radius-sm)
+    border-radius: 0;
+    transition: var(--transition)
+  }
+
+  #navbar li a:hover,
+  #navbar li a.active {
+    background: rgba(255, 77, 77, 0.08);
+    border-left: 4px solid var(--primary);
+    padding-left: 20px
   }
 
   .hamburger {
     display: flex
   }
 
+  /* --- HERO --- */
   .hero {
-    min-height: 60vh;
-    padding: 60px 20px
+    min-height: 55vh;
+    padding: 50px 20px
   }
 
   .hero h1 {
-    font-size: clamp(1.8rem, 6vw, 2.8rem)
+    font-size: clamp(1.6rem, 6vw, 2.6rem)
   }
 
+  .hero p {
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem)
+  }
+
+  /* --- PRODUCT GRID --- */
   .pro-container {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 16px
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 14px
+  }
+
+  .pro img {
+    height: 170px
   }
 
   .section-p1 {
-    padding: 40px 16px
+    padding: 35px 14px
   }
 
+  /* --- FEATURES --- */
+  .features {
+    padding: 50px 16px
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px
+  }
+
+  .feature-card {
+    padding: 22px 16px
+  }
+
+  /* --- COLLABORATION --- */
+  .collaboration {
+    padding: 45px 16px
+  }
+
+  .collab-logo {
+    width: 150px;
+    height: 90px;
+    padding: 14px
+  }
+
+  /* --- FRUIT OF THE DAY --- */
+  .fruit-of-day {
+    padding: 45px 16px
+  }
+
+  .fotd-card {
+    padding: 24px 18px
+  }
+
+  /* --- HISTORY / ABOUT --- */
   .history-content {
     flex-direction: column;
     text-align: center
@@ -2142,14 +2277,23 @@ textarea {
     text-align: center
   }
 
+  /* --- REVIEWS --- */
+  .review-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px
+  }
+
+  /* --- CONTACT --- */
+  .contact-section {
+    margin: 20px 12px;
+    padding: 30px 16px
+  }
+
   .contact-container {
     flex-direction: column
   }
 
-  .review-container {
-    grid-template-columns: 1fr 1fr
-  }
-
+  /* --- CART --- */
   #cart-add {
     flex-direction: column
   }
@@ -2168,6 +2312,22 @@ textarea {
     height: 50px
   }
 
+  #cart table thead td {
+    padding: 10px 6px;
+    font-size: 0.7rem
+  }
+
+  #cart table tbody td {
+    padding: 12px 6px
+  }
+
+  /* --- SERVICES --- */
+  .services-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px
+  }
+
+  /* --- MANAGER --- */
   .manager-content {
     flex-direction: column;
     text-align: center
@@ -2178,32 +2338,184 @@ textarea {
     height: 160px
   }
 
+  .manager-details {
+    text-align: center
+  }
+
+  /* --- COOKIE CONSENT --- */
   .cookie-consent {
     flex-direction: column;
-    text-align: center
+    text-align: center;
+    padding: 14px 16px;
+    gap: 10px
+  }
+
+  /* --- FOOTER --- */
+  .footer {
+    padding: 40px 16px 16px
+  }
+
+  .footer-wrapper {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px
+  }
+
+  /* --- TOAST --- */
+  .toast-container {
+    left: 16px;
+    right: 16px;
+    bottom: 16px
+  }
+
+  .toast {
+    font-size: 0.85rem;
+    padding: 12px 16px
+  }
+
+  /* --- NEWSLETTER --- */
+  .newsletter {
+    margin: 30px 16px;
+    padding: 30px 16px
+  }
+
+  /* --- PROMO BAR --- */
+  .promo-bar {
+    font-size: 0.78rem;
+    padding: 8px 36px 8px 16px
+  }
+
+  /* --- FAQ --- */
+  .faq-section {
+    padding: 40px 16px
+  }
+
+  .faq-question {
+    padding: 14px 18px;
+    font-size: 0.95rem
+  }
+
+  /* --- STATS --- */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px
+  }
+
+  .stat-card .stat-number {
+    font-size: 2rem
+  }
+
+  /* --- HEADER2 SUB NAV --- */
+  #header2 ul {
+    gap: clamp(12px, 3vw, 24px);
+    flex-wrap: wrap;
+    justify-content: center
+  }
+
+  #header2 ul li {
+    font-size: clamp(0.95rem, 2vw, 1.3rem)
+  }
+
+  /* --- SEARCH / FILTER --- */
+  .search-filter-bar {
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px
+  }
+
+  .search-wrapper {
+    max-width: 100%;
+    min-width: unset
+  }
+
+  .search-input {
+    min-width: unset
+  }
+
+  .filter-pills {
+    justify-content: center
+  }
+
+  /* --- BREADCRUMBS --- */
+  .breadcrumbs {
+    padding: 10px 16px;
+    font-size: 0.8rem
+  }
+
+  /* --- MODAL --- */
+  .modal {
+    padding: 24px;
+    width: 92%
+  }
+
+  /* --- WHATSAPP & BACK TO TOP --- */
+  .whatsapp-float {
+    width: 44px;
+    height: 44px;
+    font-size: 1.3rem;
+    bottom: 70px;
+    left: 16px
+  }
+
+  .back-to-top {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+    bottom: 16px;
+    left: 16px
+  }
+
+  /* --- OUTLET --- */
+  .outlet-card2 {
+    padding: 2rem;
+    max-width: 300px
+  }
+
+  .outlet-card2 h1 {
+    font-size: 1.6rem
+  }
+
+  .outlet-card2 ul {
+    font-size: 1rem
   }
 }
 
-@media(max-width:480px) {
+/* ===== RESPONSIVE: SMALL MOBILE (≤480px) ===== */
+@media (max-width: 480px) {
+  /* --- PRODUCT GRID --- */
   .pro-container {
     grid-template-columns: 1fr;
     max-width: 340px;
     margin: 0 auto
   }
 
+  .pro img {
+    height: 200px
+  }
+
+  /* --- FEATURES --- */
   .features-grid {
     grid-template-columns: 1fr
   }
 
+  /* --- REVIEWS --- */
   .review-container {
     grid-template-columns: 1fr
   }
 
+  /* --- COLLABORATION --- */
   .collaboration-logos {
     flex-direction: column;
     align-items: center
   }
 
+  .collab-logo {
+    width: 80%;
+    max-width: 240px;
+    height: auto;
+    padding: 20px
+  }
+
+  /* --- NEWSLETTER --- */
   .newsletter form {
     flex-direction: column;
     align-items: stretch
@@ -2213,32 +2525,191 @@ textarea {
     min-width: unset
   }
 
+  /* --- FOOTER --- */
   .footer-wrapper {
     grid-template-columns: 1fr;
     text-align: center
+  }
+
+  .footer-about p {
+    max-width: 100%
   }
 
   .footer-social .social-icons {
     justify-content: center
   }
 
+  /* --- SERVICES --- */
+  .services-grid {
+    grid-template-columns: 1fr
+  }
+
+  /* --- HEADER2 --- */
+  #header2 {
+    padding: 14px 10px
+  }
+
   #header2 ul {
-    gap: 16px
+    gap: 10px
   }
 
+  #header2 ul li {
+    font-size: clamp(0.85rem, 4vw, 1.1rem)
+  }
+
+  /* --- SEARCH / FILTER --- */
   .search-filter-bar {
-    flex-direction: column
+    padding: 10px
   }
 
-  .search-wrapper {
+  .sort-select {
+    width: 100%
+  }
+
+  /* --- STATS --- */
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px
+  }
+
+  .stat-card .stat-number {
+    font-size: 1.7rem
+  }
+
+  /* --- HERO --- */
+  .hero {
+    min-height: 50vh;
+    padding: 40px 16px
+  }
+
+  .hero p {
     max-width: 100%
   }
 
-  .filter-pills {
-    justify-content: center
+  .btn-primary {
+    padding: 12px 28px;
+    font-size: 0.9rem
   }
 
-  .stats-grid {
-    grid-template-columns: 1fr 1fr
+  /* --- PROMO BAR --- */
+  .promo-bar {
+    font-size: 0.72rem;
+    padding: 7px 32px 7px 10px
+  }
+
+  .promo-bar .promo-close {
+    right: 8px
+  }
+
+  /* --- CART TABLE (card layout) --- */
+  #cart table thead {
+    display: none
+  }
+
+  #cart table,
+  #cart table tbody,
+  #cart table tr,
+  #cart table td {
+    display: block;
+    width: 100%
+  }
+
+  #cart table tr {
+    margin-bottom: 16px;
+    padding: 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    position: relative
+  }
+
+  #cart table td {
+    text-align: left;
+    padding: 4px 0;
+    border: none
+  }
+
+  #cart table td::before {
+    content: attr(data-label);
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: 2px
+  }
+
+  #cart table img {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 8px
+  }
+
+  #coupon input {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 10px
+  }
+
+  /* --- CONTACT --- */
+  .contact-section {
+    margin: 16px 8px;
+    padding: 24px 12px
+  }
+
+  /* --- FAQ --- */
+  .faq-question {
+    padding: 12px 14px;
+    font-size: 0.9rem
+  }
+
+  .faq-item.active .faq-answer {
+    padding: 0 14px 14px
+  }
+
+  /* --- COOKIE CONSENT --- */
+  .cookie-consent {
+    padding: 12px;
+    gap: 8px
+  }
+
+  .cookie-consent p {
+    font-size: 0.8rem
+  }
+
+  .cookie-consent button {
+    padding: 7px 16px;
+    font-size: 0.8rem
+  }
+
+  /* --- WISHLIST --- */
+  .wishlist-section {
+    padding: 40px 12px
+  }
+
+  /* --- OUTLET --- */
+  .container {
+    min-height: 60vh;
+    padding: 30px 16px
+  }
+
+  .outlet-card2 {
+    padding: 1.5rem;
+    max-width: 280px
+  }
+
+  .outlet-card2 h1 {
+    font-size: 1.4rem
+  }
+
+  /* --- MANAGER --- */
+  .manager-info {
+    padding: 50px 16px
+  }
+
+  .manager-image {
+    width: 140px;
+    height: 140px
   }
 }
