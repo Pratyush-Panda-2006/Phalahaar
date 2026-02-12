@@ -58,8 +58,9 @@
     <section id="cart-add" class="section-p1">
         <div id="coupon">
             <h3>Apply Coupon</h3>
-            <div><input type="text" placeholder="Enter coupon code (e.g. FRESH50)"><button
-                    onclick="window.showToast('Coupon applied successfully!','🎉')">Apply</button></div>
+            <div><input type="text" id="coupon-input" placeholder="Enter coupon code (e.g. FRESH50)"><button
+                    id="apply-coupon-btn">Apply</button></div>
+            <p id="coupon-msg" style="margin-top:8px;font-size:0.9rem;display:none;"></p>
         </div>
         <div id="subtotal">
             <h3>Cart Totals</h3>
@@ -68,9 +69,13 @@
                     <td>Cart Subtotal</td>
                     <td id="cart-subtotal">₹0</td>
                 </tr>
+                <tr id="coupon-discount-row" style="display:none;">
+                    <td>Coupon Discount (FRESH50 – 10%)</td>
+                    <td id="coupon-discount" style="color:#e74c3c;">−₹0</td>
+                </tr>
                 <tr>
                     <td>Shipping</td>
-                    <td>Free</td>
+                    <td id="cart-shipping">Free</td>
                 </tr>
                 <tr>
                     <td><strong>Total</strong></td>
@@ -119,17 +124,79 @@
 
     <script src="app.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', renderCart);
+        let couponApplied = false;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCart();
+
+            // Coupon apply button
+            document.getElementById('apply-coupon-btn').addEventListener('click', applyCoupon);
+            // Allow pressing Enter in coupon input
+            document.getElementById('coupon-input').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') applyCoupon();
+            });
+        });
+
+        function applyCoupon() {
+            const input = document.getElementById('coupon-input');
+            const msg = document.getElementById('coupon-msg');
+            const code = input.value.trim().toUpperCase();
+
+            if (code === 'FRESH50') {
+                couponApplied = true;
+                input.disabled = true;
+                document.getElementById('apply-coupon-btn').textContent = 'Remove';
+                document.getElementById('apply-coupon-btn').removeEventListener('click', applyCoupon);
+                document.getElementById('apply-coupon-btn').addEventListener('click', removeCoupon);
+                msg.textContent = '✅ Coupon FRESH50 applied! You get 10% off.';
+                msg.style.color = '#27ae60';
+                msg.style.display = 'block';
+                if (window.showToast) window.showToast('Coupon FRESH50 applied! 🎉', '🎉');
+                renderCart();
+            } else if (code === '') {
+                msg.textContent = '⚠️ Please enter a coupon code.';
+                msg.style.color = '#e67e22';
+                msg.style.display = 'block';
+            } else {
+                msg.textContent = '❌ Invalid coupon code. Try FRESH50.';
+                msg.style.color = '#e74c3c';
+                msg.style.display = 'block';
+                if (window.showToast) window.showToast('Invalid coupon code!', '❌');
+            }
+        }
+
+        function removeCoupon() {
+            couponApplied = false;
+            const input = document.getElementById('coupon-input');
+            const msg = document.getElementById('coupon-msg');
+            input.disabled = false;
+            input.value = '';
+            document.getElementById('apply-coupon-btn').textContent = 'Apply';
+            document.getElementById('apply-coupon-btn').removeEventListener('click', removeCoupon);
+            document.getElementById('apply-coupon-btn').addEventListener('click', applyCoupon);
+            msg.textContent = 'Coupon removed.';
+            msg.style.color = '#999';
+            msg.style.display = 'block';
+            if (window.showToast) window.showToast('Coupon removed', '🗑️');
+            renderCart();
+        }
+
         function renderCart() {
             let cart = JSON.parse(localStorage.getItem('cart') || '[]');
             const tbody = document.getElementById('cart-items');
             tbody.innerHTML = '';
+
+            const couponDiscountRow = document.getElementById('coupon-discount-row');
+
             if (cart.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="6"><div class="empty-cart"><div class="empty-icon">🛒</div><p>Your cart is empty</p><a href="product.html" class="btn-primary">Browse Products</a></div></td></tr>';
                 document.getElementById('cart-subtotal').textContent = '₹0';
                 document.getElementById('cart-total').textContent = '₹0';
+                couponDiscountRow.style.display = 'none';
+                document.getElementById('cart-shipping').textContent = 'Free';
                 return;
             }
+
             let subtotal = 0;
             cart.forEach((item, idx) => {
                 const s = item.price * item.quantity; subtotal += s;
@@ -137,8 +204,36 @@
                 tr.innerHTML = `<td><button class="remove-btn" data-idx="${idx}"><i class="fa-regular fa-circle-xmark"></i></button></td><td><img src="${item.img}" alt="${item.name}"></td><td>${item.name}</td><td>₹${item.price}</td><td><input type="number" min="1" value="${item.quantity}" class="qty-input" data-idx="${idx}" style="width:60px;padding:6px;border:2px solid var(--border);border-radius:8px;text-align:center;background:var(--bg-card);color:var(--text)"></td><td>₹${s}</td>`;
                 tbody.appendChild(tr);
             });
+
             document.getElementById('cart-subtotal').textContent = '₹' + subtotal;
-            document.getElementById('cart-total').textContent = '₹' + subtotal;
+
+            let total = subtotal;
+
+            if (couponApplied) {
+                // 10% coupon discount on subtotal
+                const couponDisc = Math.round(subtotal * 0.10);
+                total = subtotal - couponDisc;
+
+                document.getElementById('coupon-discount').textContent = '−₹' + couponDisc;
+                couponDiscountRow.style.display = '';
+            } else {
+                couponDiscountRow.style.display = 'none';
+            }
+
+            // Shipping: free for ₹500+, otherwise ₹40
+            const shippingEl = document.getElementById('cart-shipping');
+            let shipping = 0;
+            if (total < 500) {
+                shipping = 40;
+                shippingEl.textContent = '₹40';
+            } else {
+                shippingEl.textContent = 'Free';
+            }
+            total += shipping;
+
+            document.getElementById('cart-total').textContent = '₹' + total;
+
+            // Remove item buttons
             document.querySelectorAll('.remove-btn').forEach(b => b.addEventListener('click', () => {
                 let c = JSON.parse(localStorage.getItem('cart') || '[]');
                 const n = c[b.dataset.idx]?.name;
@@ -149,6 +244,8 @@
                 const badge = document.querySelector('.cart-badge');
                 if (badge) { const cnt = c.reduce((s, i) => s + i.quantity, 0); badge.textContent = cnt > 0 ? cnt : ''; badge.setAttribute('data-count', cnt); }
             }));
+
+            // Quantity change
             document.querySelectorAll('.qty-input').forEach(i => i.addEventListener('change', () => {
                 let c = JSON.parse(localStorage.getItem('cart') || '[]');
                 c[i.dataset.idx].quantity = Math.max(1, parseInt(i.value) || 1);
