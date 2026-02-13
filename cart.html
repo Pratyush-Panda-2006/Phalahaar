@@ -222,10 +222,10 @@
 
             // Shipping: free for ₹500+, otherwise ₹40
             const shippingEl = document.getElementById('cart-shipping');
-            let shipping = 0;
+            let shipping = 0; 
             if (total < 500) {
-                shipping = 40;
-                shippingEl.textContent = '₹40';
+                shipping = 50;
+                shippingEl.textContent = '₹50';
             } else {
                 shippingEl.textContent = 'Free';
             }
