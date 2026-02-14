@@ -92,7 +92,6 @@ const SALADS = [
     { name: "Classic Fruit Platter", price: 300, img: "salad/s28.png", desc: "Timeless presentation of seasonal favorites", rating: 4.7, badge: "bestseller" }
 ];
 
-// ========== RENDER PRODUCTS ==========
 function renderProducts(products, containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
