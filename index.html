@@ -140,7 +140,6 @@
     <script src="data.js"></script>
     <script src="app.js"></script>
     <script>
-        // Render seasonal picks (random 8 from all products)
         const seasonal = [...FRUITS].sort(() => Math.random() - 0.5).slice(0, 8);
         renderProducts(seasonal, 'seasonal-grid');
     </script>
