@@ -1,7 +1,6 @@
-// ========== PHALAHAAR - APP.JS ==========
+
 document.addEventListener('DOMContentLoaded', () => {
 
-  // ===== SCROLL PROGRESS =====
   const scrollProg = document.querySelector('.scroll-progress');
   if (scrollProg) {
     window.addEventListener('scroll', () => {
