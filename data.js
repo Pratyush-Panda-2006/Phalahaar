@@ -1,4 +1,4 @@
-// ========== PHALAHAAR - PRODUCT DATA ==========
+
 const FRUITS = [
     { name: "Watermelon 1 kg", price: 20, img: "image2/a3.png", desc: "Sweet & juicy summer delight, naturally refreshing", rating: 4.5, badge: "popular" },
     { name: "Apple 1 kg", price: 300, img: "image2/a2.png", desc: "Crisp, crunchy & packed with daily goodness", rating: 4.8, badge: "bestseller" },
@@ -115,7 +115,7 @@ function renderProducts(products, containerId) {
       </div>`;
         container.appendChild(card);
     });
-    // Re-init scroll reveal for new elements
+
     initReveal();
     initAddToCart();
     initWishlistBtns();
