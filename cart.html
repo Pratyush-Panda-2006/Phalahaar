@@ -129,9 +129,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             renderCart();
 
-            // Coupon apply button
             document.getElementById('apply-coupon-btn').addEventListener('click', applyCoupon);
-            // Allow pressing Enter in coupon input
             document.getElementById('coupon-input').addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') applyCoupon();
             });
@@ -210,7 +208,6 @@
             let total = subtotal;
 
             if (couponApplied) {
-                // 10% coupon discount on subtotal
                 const couponDisc = Math.round(subtotal * 0.10);
                 total = subtotal - couponDisc;
 
@@ -220,7 +217,6 @@
                 couponDiscountRow.style.display = 'none';
             }
 
-            // Shipping: free for ₹500+, otherwise ₹40
             const shippingEl = document.getElementById('cart-shipping');
             let shipping = 0; 
             if (total < 500) {
@@ -233,7 +229,6 @@
 
             document.getElementById('cart-total').textContent = '₹' + total;
 
-            // Remove item buttons
             document.querySelectorAll('.remove-btn').forEach(b => b.addEventListener('click', () => {
                 let c = JSON.parse(localStorage.getItem('cart') || '[]');
                 const n = c[b.dataset.idx]?.name;
@@ -245,7 +240,6 @@
                 if (badge) { const cnt = c.reduce((s, i) => s + i.quantity, 0); badge.textContent = cnt > 0 ? cnt : ''; badge.setAttribute('data-count', cnt); }
             }));
 
-            // Quantity change
             document.querySelectorAll('.qty-input').forEach(i => i.addEventListener('change', () => {
                 let c = JSON.parse(localStorage.getItem('cart') || '[]');
                 c[i.dataset.idx].quantity = Math.max(1, parseInt(i.value) || 1);
